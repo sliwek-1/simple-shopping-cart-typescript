@@ -4,6 +4,8 @@ window.addEventListener('DOMContentLoaded', () => {
   main();
 })
 
+let total: number = 0;
+
 interface Product {
   id: number,
   src: string,
@@ -15,20 +17,26 @@ interface Product {
 function main(): void{
   let products: Product[] = [];
   let productsBtns = document.querySelectorAll<HTMLButtonElement>('.add-to-cart');
+  let priceElement = document.querySelector<HTMLSpanElement>('.price');
+
   productsBtns?.forEach(btn => {
+
     btn?.addEventListener('click', (e) => {
+
       let product = getProduct(e);
       products.push(product);
       renderProducts(products);
-      let total = updateTotal(e)
+      let total = updateTotal(e);
+      let price = total.toFixed(2);
+      priceElement ? priceElement.textContent = price : "";
 
-      console.log(total);
     })
-  })
-}
 
+  })
+
+}
+ 
 function updateTotal(e: Event): number{
-  let total: number = 0;
   let currentBtn = e?.currentTarget ?? "";
   if(!(currentBtn instanceof HTMLElement)) return 0;
   let currentElement = currentBtn?.parentElement;
@@ -38,7 +46,7 @@ function updateTotal(e: Event): number{
   let price: string = currentPrice ?? "";
   let priceAsNumber = price ? parseFloat(price) : 0;
 
-  total += priceAsNumber;
+  total += (priceAsNumber);
 
   return total;
 }

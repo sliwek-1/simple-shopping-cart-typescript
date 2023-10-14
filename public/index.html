@@ -2,26 +2,69 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Web site created using create-snowpack-app" />
-    <link rel="stylesheet" type="text/css" href="/index.css" />
-    <title>Snowpack App</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="module" src="/dist/index.js" defer></script>
+    <title>Koszyk sklepowy</title>
   </head>
   <body>
-    <img id="img" src="/logo.svg" />
-    <canvas id="canvas"></canvas>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script type="module" src="/dist/index.js"></script>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <main class="main">
+      <section class="section products">
+        <h1>Nasze Produkty</h1>
+        <div class="products-center">
+          <article class="product">
+            <div class="product-img">
+              <img src="./img/telefon.webp" alt="#" class="img">
+            </div>
+            <div class="info">
+              <div class="title">Telefon</div>
+              <div class="product-price">1499.99</div>
+              <button class="add-to-cart btn">Dodaj do karty</button>
+            </div>
+          </article>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+          <article class="product">
+            <div class="product-img">
+              <img src="./img/tablet.jpg" alt="#" class="img">
+            </div>
+            <div class="info">
+              <div class="title">Tablet</div>
+              <div class="product-price">699.99</div>
+              <button class="add-to-cart btn">Dodaj do karty</button>
+            </div>
+          </article>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+          <article class="product">
+            <div class="product-img">
+              <img src="./img/laptop.jpg" alt="#" class="img">
+            </div>
+            <div class="info">
+              <div class="title">Laptop</div>
+              <div class="product-price">2399.99</div>
+              <button class="add-to-cart btn">Dodaj do karty</button>
+            </div>
+          </article>
+
+          <article class="product">
+            <div class="product-img">
+              <img src="./img/klawiatura.png" alt="#" class="img">
+            </div>
+            <div class="info">
+              <div class="title">Monitor</div>
+              <div class="product-price">749.99</div>
+              <button class="add-to-cart btn">Dodaj do karty</button>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="section cart">
+        <h1>Koszyk</h1>
+        <div class="total">
+          Cena: <span class="price">9.99</span>
+        </div>
+        <div class="product-center-cart">
+          
+        </div>
+      </section>
+    </main>
   </body>
 </html>

@@ -20,14 +20,29 @@ function main(): void{
       let product = getProduct(e);
       products.push(product);
       renderProducts(products);
+      let total = updateTotal(e)
+
+      console.log(total);
     })
   })
 }
 
-function updateTotal(){
+function updateTotal(e: Event): number{
+  let total: number = 0;
+  let currentBtn = e?.currentTarget ?? "";
+  if(!(currentBtn instanceof HTMLElement)) return 0;
+  let currentElement = currentBtn?.parentElement;
 
+  let currentPrice = currentElement?.querySelector<HTMLDivElement>('.product-price')?.textContent;
+
+  let price: string = currentPrice ?? "";
+  let priceAsNumber = price ? parseFloat(price) : 0;
+
+  total += priceAsNumber;
+
+  return total;
 }
-w
+
 function renderProducts(products: Product[]){
   let containerCarts = document.querySelector<HTMLDivElement>('.product-center-cart');
   let element: HTMLElement = document.createElement("article");

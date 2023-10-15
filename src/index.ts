@@ -4,10 +4,8 @@ window.addEventListener('DOMContentLoaded', () => {
   main();
 })
 
-let total: number = 0;
-
 interface Product {
-  id: number,
+  id: string,
   src: string,
   title: string,
   price: number,
@@ -17,7 +15,6 @@ interface Product {
 function main(): void{
   let products: Product[] = [];
   let productsBtns = document.querySelectorAll<HTMLButtonElement>('.add-to-cart');
-  let priceElement = document.querySelector<HTMLSpanElement>('.price');
 
   productsBtns?.forEach(btn => {
 
@@ -26,29 +23,47 @@ function main(): void{
       let product = getProduct(e);
       products.push(product);
       renderProducts(products);
-      let total = updateTotal(e);
-      let price = total.toFixed(2);
-      priceElement ? priceElement.textContent = price : "";
+      updateTotal();
+    
 
     })
 
   })
 
 }
+
+function quantityChange(): void{
+  let quantityElement = document.querySelectorAll<HTMLInputElement>('.quantity');
+  quantityElement.forEach(quantity => {
+   quantity?.removeEventListener("change", updateTotal)
+   quantity?.addEventListener("change", (e) => {
+    let quantityNumber = quantity.value ? parseInt(quantity.value) : 0
+    if(quantityNumber <= 0){
+      if(!(e.currentTarget instanceof HTMLElement)) return quantity 
+      let currentElement = e?.currentTarget?.parentElement?.parentElement;
+      currentElement?.remove();
+    }
+    updateTotal()
+  })
+  })
+}
  
-function updateTotal(e: Event): number{
-  let currentBtn = e?.currentTarget ?? "";
-  if(!(currentBtn instanceof HTMLElement)) return 0;
-  let currentElement = currentBtn?.parentElement;
-
-  let currentPrice = currentElement?.querySelector<HTMLDivElement>('.product-price')?.textContent;
-
-  let price: string = currentPrice ?? "";
-  let priceAsNumber = price ? parseFloat(price) : 0;
-
-  total += (priceAsNumber);
-
-  return total;
+function updateTotal(): void{
+  let priceElement = document.querySelector<HTMLSpanElement>('.price');
+  let total: number = 0;
+  let products = document.querySelectorAll<HTMLElement>('.product-cart');
+  let price: number = 0;
+  let quantity: number = 0;
+  products.forEach(product => {
+    let productPrice = product?.querySelector<HTMLDivElement>('.product-price-cart')?.textContent;
+    let quantityElement = product?.querySelector<HTMLInputElement>('.quantity')?.value;
+    quantity = quantityElement ? parseFloat(quantityElement) : 0;
+    price = productPrice ? parseFloat(productPrice) : 0;
+    total += (price * quantity);
+  }) 
+  quantityChange();
+  let showPrice = total.toFixed(2);
+  priceElement ? priceElement.textContent = showPrice : "";
 }
 
 function renderProducts(products: Product[]){
@@ -56,7 +71,7 @@ function renderProducts(products: Product[]){
   let element: HTMLElement = document.createElement("article");
 
   products.forEach(product => {
-    let text: string = `<div class="product-img-cart" data-id="${product.id}">
+    let text: string = `<div class="product-img-cart">
                         <img src="${product.src}" alt="#">
                         </div>
                         <div class="title-cart">${product.title}</div>
@@ -67,6 +82,7 @@ function renderProducts(products: Product[]){
                         <button class="remove-from-cart btn">usuń</button>`;
     
     element.classList.add("product-cart");
+    element.setAttribute('data-id', product.id);
     element.innerHTML = text ?? "";
   })  
   

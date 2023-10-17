@@ -28,7 +28,8 @@ function main(): void{
       productsCart.forEach(quantity => {
         let quantityID = quantity.dataset.id;
         if(quantityID == currentElementID) {
-          console.log("true")
+          // Skrypt w tym momencie będzie blokował dodanie kolejnego tego samego elementu i zamiast tego będzie 
+          // zwiększać ilość tego produktu w koszyku jeżeli już się tam znajduje
         }
       })
 

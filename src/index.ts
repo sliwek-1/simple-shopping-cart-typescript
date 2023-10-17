@@ -17,41 +17,43 @@ function main(): void{
   let productsBtns = document.querySelectorAll<HTMLButtonElement>('.add-to-cart');
 
   productsBtns?.forEach(btn => {
-
     btn?.addEventListener('click', (e) => {
-
       let product = getProduct(e);
       products.push(product);
       renderProducts(products);
       updateTotal();
-    
-
     })
 
   })
 
 }
 
+function deleteFromCart(product: HTMLElement): void{
+  if(!(product instanceof HTMLElement)) return
+  let removeBtn = product?.querySelector<HTMLButtonElement>('.remove-from-cart');
+  removeBtn?.addEventListener('click', (e) => {
+    let currentBtn = e?.currentTarget;
+    if(!(currentBtn instanceof HTMLElement)) return;
+
+    let currentElement = currentBtn?.parentElement;
+
+    currentElement?.remove();
+    updateTotal()
+  })
+}
+
 function quantityChange(): void{
   let quantityElement = document.querySelectorAll<HTMLInputElement>('.quantity');
   quantityElement.forEach(quantity => {
-   quantity?.removeEventListener("change", updateTotal)
-   quantity?.addEventListener("change", (e) => {
-    let quantityNumber = quantity.value ? parseInt(quantity.value) : 0
-    if(quantityNumber <= 0){
-      if(!(e.currentTarget instanceof HTMLElement)) return quantity 
-      let currentElement = e?.currentTarget?.parentElement?.parentElement;
-      currentElement?.remove();
-    }
-    updateTotal()
-  })
+    quantity?.removeEventListener("change", updateTotal)
+    quantity?.addEventListener("change", updateTotal)
   })
 }
  
 function updateTotal(): void{
   let priceElement = document.querySelector<HTMLSpanElement>('.price');
-  let total: number = 0;
   let products = document.querySelectorAll<HTMLElement>('.product-cart');
+  let total: number = 0;
   let price: number = 0;
   let quantity: number = 0;
   products.forEach(product => {
@@ -63,6 +65,7 @@ function updateTotal(): void{
   }) 
   quantityChange();
   let showPrice = total.toFixed(2);
+  console.log(showPrice)
   priceElement ? priceElement.textContent = showPrice : "";
 }
 
@@ -77,15 +80,15 @@ function renderProducts(products: Product[]){
                         <div class="title-cart">${product.title}</div>
                         <div class="product-price-cart">${product.price}</div>
                         <div class="product-quantity-element">
-                          <input type="number" name="quantity" class="quantity" value="${product.quantity}">
+                          <input type="number" name="quantity" class="quantity" value="${product.quantity}" min="1">
                         </div>
                         <button class="remove-from-cart btn">usuń</button>`;
     
     element.classList.add("product-cart");
     element.setAttribute('data-id', product.id);
     element.innerHTML = text ?? "";
-  })  
-  
+  })
+  deleteFromCart(element)
   containerCarts?.append(element);
 }
 

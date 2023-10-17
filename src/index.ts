@@ -23,9 +23,7 @@ function main(): void{
       renderProducts(products);
       updateTotal();
     })
-
   })
-
 }
 
 function deleteFromCart(product: HTMLElement): void{
@@ -85,7 +83,7 @@ function renderProducts(products: Product[]){
                         <button class="remove-from-cart btn">usuń</button>`;
     
     element.classList.add("product-cart");
-    element.setAttribute('data-id', product.id);
+    element.setAttribute('data-id', product.title);
     element.innerHTML = text ?? "";
   })
   deleteFromCart(element)

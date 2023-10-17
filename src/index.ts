@@ -18,6 +18,20 @@ function main(): void{
 
   productsBtns?.forEach(btn => {
     btn?.addEventListener('click', (e) => {
+      let productsCart = document.querySelectorAll<HTMLElement>('.product-cart');
+      let currentBtn = e.currentTarget;
+      if(!(currentBtn instanceof HTMLElement)) return;
+
+      let currentElement = currentBtn?.parentElement?.parentElement;
+      let currentElementID = currentElement?.dataset?.id;
+        
+      productsCart.forEach(quantity => {
+        let quantityID = quantity.dataset.id;
+        if(quantityID == currentElementID) {
+          console.log("true")
+        }
+      })
+
       let product = getProduct(e);
       products.push(product);
       renderProducts(products);
